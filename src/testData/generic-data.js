@@ -1,3 +1,6 @@
+/**
+ * Alphabetic data
+ */
 const animals = [
   {
     animal: 'albatross',
@@ -13,6 +16,9 @@ const animals = [
   },
 ]
 
+/**
+ * Numerical data
+ */
 const numbers = [
   {
     number: 1,

@@ -34,4 +34,12 @@ const acatsTestSequence = [
     date: '07/16/2017',
     type: 'Transfer Process Initiated',
   },
+  {
+    id: 3,
+    date: '07/11/2017',
+    type: 'Stock rest and settle',
+    status: 'Complete',
+  },
 ]
+
+export default acatsTestSequence
