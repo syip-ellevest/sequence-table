@@ -10,11 +10,12 @@
  * 
  * @param {array} sequence - array of record objects; a record is a "step" in
  * the sequence. 
+ * 
  */
 
 import * as React from 'react'
-import SequenceMobileTableBody from './SequenceMobileTableBody'
-import HoldingMobileTableRow from './HoldingMobileTableRow'
+import SequenceMobileTableBody from './mobile/SequenceMobileTableBody'
+import HoldingMobileTableRow from './mobile/HoldingMobileTableRow'
 
 const SequenceTable = (props) => {
   const renderTableBodies = (record) => {

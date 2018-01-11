@@ -8,8 +8,10 @@ import Table from '../Table/Table'
 import genericTestData from '../testData/generic-data'
 import acatsTestSequence from '../testData/acats-sequence'
 
-import SequenceTable from '../SequenceTable/mobile/SequenceTable' 
+import SequenceTable from '../SequenceTable/SequenceTable' 
+import SequenceTableBody from '../SequenceTable/SequenceTableBody'
 import SequenceMobileTableBody from '../SequenceTable/mobile/SequenceMobileTableBody'
+import HoldingTableRow from '../SequenceTable/HoldingTableRow'
 import HoldingMobileTableRow from '../SequenceTable/mobile/HoldingMobileTableRow'
 
 storiesOf('Table', module)
@@ -44,11 +46,11 @@ storiesOf('Sequence Table/Mobile', module)
     return <SequenceTable sequence={acatsTestSequence} />
   })
 
-  .add('Transaction with no holdings - Table Body', () => {
+  .add('Record with no nested records', () => {
     return <SequenceMobileTableBody record={acatsTestSequence[0]} />
   })
 
-  .add('Transaction w/Holdings - Table Body', () => {
+  .add('Record w/nested records', () => {
     return (
       <SequenceMobileTableBody 
         record={acatsTestSequence[1]}>
@@ -61,7 +63,7 @@ storiesOf('Sequence Table/Mobile', module)
     )
   }) 
 
-  .add('Holding - Table Body', () => {
+  .add('Holding', () => {
     return (
       <HoldingMobileTableRow
         holding={acatsTestSequence[1].holdings[0]} />
@@ -73,36 +75,22 @@ storiesOf('Sequence Table/Mobile', module)
 
 
 // SequenceTable Desktop
-/**
- * Takes one transaction object & renders into a <tbody> 
- * Ignores nested holdings
- * @desktop
- * 
- * @param {obj} transaction 
- */
-const SequenceTableBody = (transaction) => {
-  const {
-    date, type, status,
-  } = transaction
-
-  return (
-    <tbody>
-      <tr>
-        <td>
-          <p>{date}</p>
-        </td>
-        <td>
-          <p>{type}</p>
-        </td>
-        <td>
-          <p>{status}</p>
-        </td>
-      </tr>
-    </tbody>
-  )
-}
 
 storiesOf('Sequence Table/Desktop', module)
-  .add('ACATS Desktop - Transaction (tbody)', () => {
-    return SequenceTableBody(acatsTestSequence[1])
+  .add('Record with no nested records', () => {
+    return <SequenceTableBody record={acatsTestSequence[0]} />
   })
+
+  .add('Record w/nested records', () => {
+    return (
+      <SequenceTableBody 
+        record={acatsTestSequence[1]}>
+        {
+          acatsTestSequence[1].holdings.map((holding) => {
+            return <HoldingTableRow holding={holding} />
+          })   
+        }
+      </SequenceTableBody>
+    )
+  }) 
+
