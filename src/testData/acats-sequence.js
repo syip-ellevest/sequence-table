@@ -18,14 +18,16 @@ const acatsTestSequence = [
     status: 'Success',
     holdings: [
       {
-        symbol: 'Cash',
-        shareQuantity: 1000,
-        sharePrice: 1,
-      },
-      {
         symbol: 'SSTK',
         shareQuantity: 1000,
-        sharePrice: 1,
+      },
+      {
+        symbol: 'VTI',
+        shareQuantity: 10000,
+      },
+      {
+        symbol: 'TSLA',
+        shareQuantity: 10,
       },
     ],
   },

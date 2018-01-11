@@ -49,10 +49,12 @@ storiesOf('Table', module)
  * 
  * @param {obj} transaction 
  */
-const SequenceMobileTableBody = (transaction) => {
+const SequenceMobileTableBody = (transaction, nestedKey = null) => {
   const {
     date, type, status,
   } = transaction
+
+  // @TODO: if nestedKey, render bodies for them too
 
   return (
     <tbody>
@@ -71,6 +73,81 @@ const SequenceMobileTableBody = (transaction) => {
   )
 }
 
+
+/**
+ * Takes a transaction object & the name of the key inside that object that
+ * has the nested data, and renders a tbody with additional rows displaying
+ * nested data
+ * 
+ * @param {obj} transaction 
+ * @param {str} nestedKey - name of the key that has the nested data
+ */
+const SequenceMobileTableBodyNested = (transaction, nestedKey) => {
+  const holdings = transaction[nestedKey].map((holding) => {
+    return HoldingMobileTableRow(holding)
+  })  
+
+  return [
+    SequenceMobileTableBody(transaction),
+    holdings,
+  ]
+}
+
+const HoldingMobileTableRow = (holding) => {
+  const { symbol, shareQuantity } = holding
+
+  return (
+    <tr>
+      <td>
+        <p>{symbol}</p>
+        <p>Share</p>
+        <p>{shareQuantity}</p>
+      </td>
+    </tr>
+  ) 
+}
+
+const SequenceTable = (sequence) => {
+  const renderRows = (row) => {
+    if (row.holdings) {
+      return SequenceMobileTableBodyNested(row, 'holdings')
+    } else {
+      return SequenceMobileTableBody(row)
+    }
+  }
+
+  const rows = sequence.map(row => renderRows(row))
+
+  return (
+    <table>
+      {rows}
+    </table>
+  )
+}
+
+
+storiesOf('Sequence Table/Mobile', module)
+  .add('Sequence Table', () => {
+    return SequenceTable(acatsTestSequence)
+  })
+
+  .add('Transaction with no holdings - Table Body', () => {
+    return SequenceMobileTableBody(acatsTestSequence[0])
+  })
+
+  .add('Transaction w/Holdings - Table Body', () => {
+    return SequenceMobileTableBodyNested(acatsTestSequence[1], 'holdings')
+  }) 
+
+  .add('Holding - Table Body', () => {
+    return HoldingMobileTableBody(acatsTestSequence[1].holdings[0])
+  })
+
+
+
+
+
+// SequenceTable Desktop
 /**
  * Takes one transaction object & renders into a <tbody> 
  * Ignores nested holdings
@@ -99,29 +176,6 @@ const SequenceTableBody = (transaction) => {
     </tbody>
   )
 }
-
-/**
- * Takes a transaction object & the name of the key inside that object that
- * has the nested data, and renders a tbody with additional rows displaying
- * nested data
- * 
- * @param {obj} transaction 
- * @param {str} nestedKey - name of the key that has the nested data
- */
-const SequenceMobileTableBodyNested = (transaction, nestedKey) => {
-  return null
-}
-
-
-storiesOf('Sequence Table/Mobile', module)
-  .add('ACATS Mobile - Transaction (tbody)', () => {
-    return SequenceMobileTableBody(acatsTestSequence[0])
-  })
-
-  .add('ACATS Mobile - Transaction w/Holdings (tbody w/nested data)', () => {
-    return SequenceMobileTableBodyNested(acatsTestSequence[1], 'holdings')
-  })
-
 
 storiesOf('Sequence Table/Desktop', module)
   .add('ACATS Desktop - Transaction (tbody)', () => {
