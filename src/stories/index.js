@@ -9,10 +9,8 @@ import genericTestData from '../testData/generic-data'
 import acatsTestSequence from '../testData/acats-sequence'
 
 import SequenceTable from '../SequenceTable/SequenceTable' 
-import SequenceTableBody from '../SequenceTable/SequenceTableBody'
-import SequenceMobileTableBody from '../SequenceTable/mobile/SequenceMobileTableBody'
-import HoldingTableRow from '../SequenceTable/HoldingTableRow'
-import HoldingMobileTableRow from '../SequenceTable/mobile/HoldingMobileTableRow'
+import SequenceRecord from '../SequenceTable/SequenceRecord'
+import Holding from '../SequenceTable/Holding'
 
 storiesOf('Table', module)
   .add('With default columns', () => <Table data={genericTestData.animals} />)
@@ -43,30 +41,40 @@ storiesOf('Table', module)
 
 storiesOf('Sequence Table/Mobile', module)
   .add('Sequence Table', () => {
-    return <SequenceTable sequence={acatsTestSequence} />
+    return (
+      <SequenceTable 
+        sequence={acatsTestSequence}
+        isMobile={true} />
+    )
   })
 
   .add('Record with no nested records', () => {
-    return <SequenceMobileTableBody record={acatsTestSequence[0]} />
+    return (
+      <SequenceRecord
+        record={acatsTestSequence[0]} 
+        isMobile={true} />
+    )
   })
 
   .add('Record w/nested records', () => {
     return (
-      <SequenceMobileTableBody 
-        record={acatsTestSequence[1]}>
+      <SequenceRecord
+        record={acatsTestSequence[1]}
+        isMobile={true}>
         {
           acatsTestSequence[1].holdings.map((holding) => {
-            return <HoldingMobileTableRow holding={holding} />
+            return <Holding holding={holding} />
           })   
         }
-      </SequenceMobileTableBody>
+      </SequenceRecord>
     )
   }) 
 
   .add('Holding', () => {
     return (
-      <HoldingMobileTableRow
-        holding={acatsTestSequence[1].holdings[0]} />
+      <Holding
+        holding={acatsTestSequence[1].holdings[0]}
+        isMobile={true} />
     )
   })
 

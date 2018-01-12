@@ -14,25 +14,30 @@
  */
 
 import * as React from 'react'
-import SequenceMobileTableBody from './mobile/SequenceMobileTableBody'
-import HoldingMobileTableRow from './mobile/HoldingMobileTableRow'
+import SequenceRecord from './SequenceRecord'
+import Holding from './Holding'
 
 const SequenceTable = (props) => {
-  const renderTableBodies = (record) => {
+
+  const renderTableBody = (record) => {
     return (
-      <SequenceMobileTableBody record={record}>
-        { // Render holdings if available as nested rows
-          record.holdings
-          && record.holdings.map((holding) => {
-            return <HoldingMobileTableRow holding={holding} />
-          })   
-        }
-      </SequenceMobileTableBody>
+      <tbody>
+        <tr>
+          <SequenceRecord record={record}>
+            { // Render holdings if available as nested rows
+              record.holdings
+              && record.holdings.map((holding) => {
+                return <Holding holding={holding} />
+              })   
+            }
+          </SequenceRecord>
+        </tr>
+      </tbody>
     )
   }
 
   const tableBodies = props.sequence.map(
-    record => renderTableBodies(record)
+    record => renderTableBody(record)
   )
 
   return (
